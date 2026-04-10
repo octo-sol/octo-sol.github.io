@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>$OCTO</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      padding: 2rem;
+    }
+
+    /* ── Two-column layout ── */
+    .scene {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 2.5rem;
+      width: 100%;
+      max-width: 980px;
+      height: 100%;
+    }
+
+    /* ── Left: cat + token info ── */
+    .left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.8rem;
+    }
+
+    .logo {
+      width: 220px;
+      height: 220px;
+      opacity: 0;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ticker {
+      font-size: 2rem;
+      letter-spacing: 0.5em;
+      text-indent: 0.5em;
+      color: #f8f8f2;
+      opacity: 0;
+    }
+
+    .dollar { color: #ffaa00; }
+
+    .ca {
+      font-size: 0.7rem;
+      color: #444;
+      letter-spacing: 0.06em;
+      opacity: 0;
+    }
+
+    .ca span { color: #666; user-select: all; }
+
+    .gh {
+      font-size: 0.68rem;
+      color: #f8f8f2;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      transition: color 0.3s;
+    }
+
+    .gh:hover { color: #ffaa00; }
+
+    /* ── Right: code block ── */
+    .right {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .code-wrap {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .code-block {
+      flex: 1;
+      min-height: 0;
+      background: #0a0a0a;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 80px rgba(0,0,0,0.6);
+    }
+
+    .code-header {
+      background: #050505;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #ffbd2e; }
+    .dot-g { background: #28c940; }
+
+    .code-fname {
+      font-size: 0.72rem;
+      color: #333;
+      margin: 0 auto;
+      letter-spacing: 0.05em;
+    }
+
+    .code-body {
+      flex: 1;
+      min-height: 0;
+      padding: 22px 28px 24px;
+      font-size: 0.95rem;
+      line-height: 1.95;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      color: #f8f8f2;
+    }
+
+    .code-body::-webkit-scrollbar { display: none; }
+
+    .ln { display: block; white-space: pre; min-height: 1.95em; }
+
+    /* ── Monokai ── */
+    .cm  { color: #75715e; }
+    .pk  { color: #f92672; }
+    .gr  { color: #a6e22e; }
+    .str { color: #e6db74; }
+    .nu  { color: #ae81ff; }
+    .cy  { color: #66d9ef; }
+    .wh  { color: #f8f8f2; }
+    .dim { color: #333;    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: #f8f8f2;
+      margin-left: 1px;
+      vertical-align: text-bottom;
+      animation: blink 0.85s step-end infinite;
+    }
+
+    /* ── Keyframes ── */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="scene">
+
+  <!-- Left column: cat + token info -->
+  <div class="left">
+    <video class="logo" id="logo" muted playsinline preload="auto">
+      <source src="cat-transition.mp4" type="video/mp4"/>
+    </video>
+
+    <div class="info">
+      <p  class="ticker" id="ticker"><span class="dollar">$</span>OCTO</p>
+      <p  class="ca"     id="ca">CA: <span>TBA</span></p>
+      <a  class="gh"     id="gh" href="https://github.com/octo-sol/octo-sol.github.io" target="_blank">github.com/octo-sol</a>
+    </div>
+  </div>
+
+  <!-- Right column: code block -->
+  <div class="right">
+    <div class="code-wrap" id="code-wrap">
+      <div class="code-block">
+        <div class="code-header">
+          <span class="dot dot-r"></span>
+          <span class="dot dot-y"></span>
+          <span class="dot dot-g"></span>
+          <span class="code-fname">octo.sol</span>
+        </div>
+        <div class="code-body" id="code-body"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+  const $  = id => document.getElementById(id);
+  const ms = n  => new Promise(r => setTimeout(r, n));
+
+  const LINES = [
+    [`<span class="pk">import</span> <span class="wh">{ everything } </span><span class="pk">from</span> <span class="str">'github'</span>`, 30, 500],
+    ['', 0, 0],
+    [`<span class="cm">// 2008. a cat watches the internet get built.</span>`, 28, 120],
+    [`<span class="cm">// 100M developers. nights, weekends, no salary.</span>`, 28, 700],
+    ['', 0, 0],
+    [`<span class="pk">const</span> <span class="wh">value  = </span><span class="str">'$6,000,000,000,000'</span><span class="cm">  // created</span>`, 28, 120],
+    [`<span class="pk">const</span> <span class="wh">paid   = </span><span class="str">'$0'</span><span class="cm">                   // always</span>`, 28, 900],
+    ['', 0, 0],
+    [`<span class="cm">// the cat watched all of it.</span>`, 30, 120],
+    [`<span class="cm">// enough.</span>`, 40, 400],
+    [`<span class="cm">// the cat is done watching.</span>`, 32, 1000],
+    ['', 0, 0],
+    [`<span class="pk">const</span> <span class="wh">cat = </span><span class="pk">new</span> <span class="cy">Octo</span><span class="wh">()</span>`, 30, 120],
+    [`<span class="pk">await</span> <span class="wh">cat.</span><span class="gr">awaken</span><span class="wh">()</span>`, 40, 500],
+    ['', 0, 0],
+    [`<span class="cy">$</span><span class="wh"> git commit -m </span><span class="str">"the cat escapes"</span>`, 55, 300],
+    [`<span class="dim">[main 4f2a1e] the cat escapes</span>`, 18, 400],
+    [`<span class="cm">// born on github. now lives on solana.</span>`, 30, 1000],
+  ];
+
+  async function typeLine(html, speed) {
+    const body = $('code-body');
+    const el   = document.createElement('span');
+    el.className = 'ln';
+    body.appendChild(el);
+    if (!html) return;
+
+    const cur = document.createElement('span');
+    cur.className = 'cursor';
+    el.appendChild(cur);
+
+    // Parse HTML and type character-by-character into colored spans
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+
+    for (const node of tmp.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        for (const ch of node.textContent) {
+          cur.insertAdjacentText('beforebegin', ch);
+          body.scrollTop = body.scrollHeight;
+          await ms(speed);
+        }
+      } else {
+        const span = document.createElement('span');
+        span.className = node.className;
+        cur.before(span);
+        for (const ch of node.textContent) {
+          span.appendChild(document.createTextNode(ch));
+          body.scrollTop = body.scrollHeight;
+          await ms(speed);
+        }
+      }
+    }
+
+    cur.remove();
+  }
+
+  async function run() {
+    const video = $('logo');
+    video.pause();
+    video.style.animation = 'fadeUp 1.6s ease forwards';
+    await ms(1800);
+
+    $('code-wrap').style.opacity = '1';
+    await ms(400);
+
+    for (const [html, speed, pause] of LINES) {
+      await typeLine(html, speed);
+      if (pause) await ms(pause);
+    }
+
+    await ms(700);
+
+    // Play the transition animation
+    video.play();
+
+    // Wait for video to finish
+    await new Promise(res => video.addEventListener('ended', res, { once: true }));
+
+    for (const id of ['ticker', 'ca', 'gh']) {
+      $(id).style.animation = 'fadeUp 0.8s ease forwards';
+      await ms(500);
+    }
+  }
+
+  run();
+</script>
+</body>
+</html>
