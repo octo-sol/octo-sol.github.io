@@ -29,7 +29,7 @@ The first cat on chain — a meme coin for the builders who never got paid.
 
 | Field     | Value |
 |-----------|-------|
-| Contract  | `TBA` |
+| Contract  | `7o2zoTpeA6ARNBcdKqtmvkeCLrWXxjdUriSBpFEepump` |
 | Network   | Solana |
 | Ticker    | `$OCTO` |
 
